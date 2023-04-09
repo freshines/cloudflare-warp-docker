@@ -20,7 +20,7 @@ RUN set -x && \
 	apt-key add /pubkey.gpg && \
 	echo "deb http://pkg.cloudflareclient.com/ buster main" > /etc/apt/sources.list.d/cloudflare-client.list && \
 	apt update && \
-	apt install cloudflare-warp=$VERSION -y && \
+	apt install cloudflare-warp -y && \
 	apt purge ca-certificates -y && \
 	apt autoremove -y && \
 	apt clean -y &&\
@@ -30,8 +30,7 @@ FROM cf AS cf2fly
 ENV DEBIAN_FRONTEND noninteractive
 ARG VERSION
 LABEL \ 
-	org.opencontainers.image.authors="Amir Daaee <amir.daaee@gmail.com>" \
-	org.opencontainers.image.warp-version=$VERSION
+	org.opencontainers.image.authors="Amir Daaee <amir.daaee@gmail.com>"
 
 COPY  run.sh /
 COPY --from=v2fly /usr/bin/v2ray /usr/bin/v2ctl /usr/bin/
