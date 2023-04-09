@@ -38,6 +38,5 @@ jobs:
       with:
         context: .
         platforms: linux/amd64,linux/arm64
-        build-args: VERSION=${{ github.event.inputs.version }}
         push: true
-        tags: ${{ vars.ALI_DOCKER_HUB_REGISTRY }}/freshines/dns2socks:latest
+        tags: ${{ vars.ALI_DOCKER_HUB_REGISTRY }}/freshines/cloudflare-warp-docker:latest
