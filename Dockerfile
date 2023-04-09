@@ -1,8 +1,8 @@
 FROM docker.io/debian:buster-slim AS v2fly
 WORKDIR /v2fly
 COPY v2fly-docker/v2ray.sh /root/v2ray.sh
-RUN arch=`arch` &&  platform=`[ $arch = "aarch64" ] && echo "arm64" || echo "amd64"`
-RUN set -x && \
+
+RUN arch=`arch` &&  platform=`[ $arch = "aarch64" ] && echo "arm64" || echo "amd64"` && set -x && \
 	apt update && \
 	apt install -y tzdata openssl ca-certificates wget unzip && \
 	mkdir -p /etc/v2ray /usr/local/share/v2ray /var/log/v2ray && \
@@ -13,9 +13,10 @@ FROM docker.io/debian:buster-slim AS cf
 ARG VERSION
 ENV DEBIAN_FRONTEND noninteractive
 WORKDIR /
-COPY pubkey.gpg /
-RUN . /etc/os-release && SysInfo_OS_CodeName="${VERSION_CODENAME}"
-RUN set -x && \
+COPY pubkey.gpg / 
+RUN . /etc/os-release && SysInfo_OS_CodeName="${VERSION_CODENAME}" && \
+	arch=`arch` &&  platform=`[ $arch = "aarch64" ] && echo "arm64" || echo "amd64"` && \
+	set -x && \
 	apt update && \
 	apt install -y gnupg ca-certificates libcap2-bin curl && \
 	curl https://pkg.cloudflareclient.com/pubkey.gpg | gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg && \
