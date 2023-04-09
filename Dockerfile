@@ -14,7 +14,7 @@ ARG VERSION
 ENV DEBIAN_FRONTEND noninteractive
 WORKDIR /
 COPY pubkey.gpg /
-RUN source /etc/os-release && SysInfo_OS_CodeName="${VERSION_CODENAME}"
+RUN . /etc/os-release && SysInfo_OS_CodeName="${VERSION_CODENAME}"
 RUN set -x && \
 	apt update && \
 	apt install -y gnupg ca-certificates libcap2-bin curl && \
