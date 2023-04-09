@@ -14,13 +14,12 @@ ARG VERSION
 ENV DEBIAN_FRONTEND noninteractive
 WORKDIR /
 COPY pubkey.gpg / 
-RUN . /etc/os-release && SysInfo_OS_CodeName="${VERSION_CODENAME}" && \
-	arch=`arch` &&  platform=`[ $arch = "aarch64" ] && echo "arm64" || echo "amd64"` && \
+RUN arch=`arch` &&  platform=`[ $arch = "aarch64" ] && echo "arm64" || echo "amd64"` && \
 	set -x && \
 	apt update && \
 	apt install -y gnupg ca-certificates libcap2-bin curl && \
 	curl https://pkg.cloudflareclient.com/pubkey.gpg | gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg && \
-        echo "deb [arch=$platform signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ ${SysInfo_OS_CodeName} main" | tee /etc/apt/sources.list.d/cloudflare-client.list && \ 
+        echo "deb [arch=$platform signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list && \ 
 	apt update && \
 	apt install cloudflare-warp -y && \
 	apt purge ca-certificates -y && \
