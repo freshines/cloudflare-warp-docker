@@ -1,12 +1,13 @@
 FROM docker.io/debian:buster-slim AS v2fly
 WORKDIR /v2fly
 COPY v2fly-docker/v2ray.sh /root/v2ray.sh
-RUN set -x && \
+
+RUN arch=`arch` &&  platform=`[ $arch = "aarch64" ] && echo "linux/arm64" || echo "linux/amd64"` && set -x && \
 	apt update && \
 	apt install -y tzdata openssl ca-certificates wget unzip && \
 	mkdir -p /etc/v2ray /usr/local/share/v2ray /var/log/v2ray && \
 	chmod +x /root/v2ray.sh && \
-	/root/v2ray.sh "linux/amd64" "v4.45.2"
+	/root/v2ray.sh $platform "v4.45.2"
 
 FROM docker.io/debian:buster-slim AS cf
 ARG VERSION
