@@ -23,6 +23,7 @@ RUN . /etc/os-release && SysInfo_OS_CodeName="${VERSION_CODENAME}" && \
         echo "deb [arch=$platform signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ ${SysInfo_OS_CodeName} main" | tee /etc/apt/sources.list.d/cloudflare-client.list && \ 
 	cat /etc/apt/sources.list.d/cloudflare-client.list && \
 	apt update && \
+	apt install vim -y && \
 	apt install cloudflare-warp -y && \
 	apt purge ca-certificates -y && \
 	apt autoremove -y && \
