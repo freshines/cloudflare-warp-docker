@@ -1,5 +1,5 @@
 #!/bin/bash
-
+ 
 warp-svc > /var/log/warp/log &
 (
 sleep 10
